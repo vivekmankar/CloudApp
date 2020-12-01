@@ -1,6 +1,6 @@
 @model CrashList;
 @{
-    ViewData["Title"] = "Visualiza";
+    ViewData["Title"] = "Visualize";
 }
 
 <!DOCTYPE html>
@@ -74,28 +74,30 @@
                 <th>Number of pedestrians injured</th>
                 <th>Number of Pedestrians Killed</th>
             </tr>
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Borough)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Crash_date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number_of_persons_injured)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number_of_persons_killed)
-                </td>
-                 <td>
-                    @Html.DisplayFor(modelItem => item.Number_of_pedestrians_injured)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Number_of_pedestrians_killed)
-                </td>
+            @foreach (var item in Model.crashList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Borough)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Crash_date)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number_of_persons_injured)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number_of_persons_killed)
+                    </td>
+                     <td>
+                        @Html.DisplayFor(modelItem => item.Number_of_pedestrians_injured)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Number_of_pedestrians_killed)
+                    </td>
                 
-            </tr>
-        }
+                </tr>
+            }        
         </table>
     </p>
 
