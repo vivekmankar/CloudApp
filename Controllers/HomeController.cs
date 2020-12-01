@@ -37,6 +37,7 @@ namespace CloudApp.Controllers
 
 			string API_PATH = BASE_URL;
 			string crashesData = "";
+			CrashList crashes = new CrashList();
 
 			//List<Crashes> crashes = null;
 
@@ -55,8 +56,9 @@ namespace CloudApp.Controllers
 				{
 					// JsonConvert is part of the NewtonSoft.Json Nuget package
 					//var settings = new JsonSerializerSettings(); settings.CheckAdditionalContent = false;
-					List<Crashes> crashes = JsonConvert.DeserializeObject<List<Crashes>>(crashesData);
+					crashes.crashList = JsonConvert.DeserializeObject<List<Crashes>>(crashesData);
 					}
+				return View(crashes);
 				
 			}
 			catch (Exception e)
@@ -80,7 +82,45 @@ namespace CloudApp.Controllers
 
 		public IActionResult Visualize()
 		{
-			return View("Visualize");
+			httpClient = new HttpClient();
+			httpClient.DefaultRequestHeaders.Accept.Clear();
+			//httpClient.DefaultRequestHeaders.Add("X-Api-Key", API_KEY);
+			httpClient.DefaultRequestHeaders.Accept.Add(
+				new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+			string API_PATH = BASE_URL;
+			string crashesData = "";
+			CrashList crashes = new CrashList();
+
+			//List<Crashes> crashes = null;
+
+			httpClient.BaseAddress = new Uri(API_PATH);
+
+			try
+			{
+				HttpResponseMessage response = httpClient.GetAsync(API_PATH).GetAwaiter().GetResult();
+
+				if (response.IsSuccessStatusCode)
+				{
+					crashesData = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+				}
+
+				if (!crashesData.Equals(""))
+				{
+					// JsonConvert is part of the NewtonSoft.Json Nuget package
+					//var settings = new JsonSerializerSettings(); settings.CheckAdditionalContent = false;
+					crashes.crashList = JsonConvert.DeserializeObject<List<Crashes>>(crashesData);
+				}
+				return View(crashes);
+
+			}
+			catch (Exception e)
+			{
+				// This is a useful place to insert a breakpoint and observe the error message
+				Console.WriteLine(e.Message);
+			}
+
+			return View();
 		}
 
 		public IActionResult Sample()
