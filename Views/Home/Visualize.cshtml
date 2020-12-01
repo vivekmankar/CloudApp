@@ -66,8 +66,14 @@
     <p aligh=justify>
         Visualizing data helps to get a better understanding of the data.
         <table>
-        @foreach (var item in Model.crashList)
-        {
+            <tr>
+                <th>Borough</th>
+                <th>Crash Date</th>
+                <th>Number of Persons Injured</th>
+                <th>Number of Persons Killed</th>
+                <th>Number of pedestrians injured</th>
+                <th>Number of Pedestrians Killed</th>
+            </tr>
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Borough)
