@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using CloudApp.Models;
 using System.Net.Http;
 using Newtonsoft.Json;
+//using CloudApp.APIHandlerManager;
+using System.IO;
 
 namespace CloudApp.Controllers
 {
@@ -36,7 +38,7 @@ namespace CloudApp.Controllers
 			string API_PATH = BASE_URL;
 			string crashesData = "";
 
-			Crashes crashes = null;
+			//List<Crashes> crashes = null;
 
 			httpClient.BaseAddress = new Uri(API_PATH);
 
@@ -52,8 +54,10 @@ namespace CloudApp.Controllers
 				if (!crashesData.Equals(""))
 				{
 					// JsonConvert is part of the NewtonSoft.Json Nuget package
-					crashes = JsonConvert.DeserializeObject<Crashes>(crashesData.Substring(1, crashesData.Length - 2));
-				}
+					//var settings = new JsonSerializerSettings(); settings.CheckAdditionalContent = false;
+					List<Crashes> crashes = JsonConvert.DeserializeObject<List<Crashes>>(crashesData);
+					}
+				
 			}
 			catch (Exception e)
 			{
@@ -63,7 +67,6 @@ namespace CloudApp.Controllers
 
 			return View(); 
 		}
-
 
 		public IActionResult AboutUs()
 		{
@@ -78,6 +81,11 @@ namespace CloudApp.Controllers
 		public IActionResult Visualize()
 		{
 			return View("Visualize");
+		}
+
+		public IActionResult Sample()
+		{
+			return View("Sample");
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
